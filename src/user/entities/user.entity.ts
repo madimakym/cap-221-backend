@@ -20,10 +20,19 @@ export class Users {
     password: string;
 
     @Column({ nullable: true })
+    numero_cni: string;
+
+    @Column({ nullable: true })
     cni: string;
 
     @Column({ nullable: true })
-    secteur: string;
+    cv: string;
+
+    @Column({ nullable: true })
+    dob: string;
+
+    @Column({ nullable: true })
+    metier: string;
 
     @Column({ nullable: true })
     status: boolean;

@@ -19,6 +19,12 @@ export class MetierService {
     return this.metierRepository.find();
   }
 
+  findByGroupe(groupe: string) {
+    return this.metierRepository.find({
+      where: [{ "groupe": groupe }]
+    });
+  }
+
   findOne(id: number) {
     return this.metierRepository.findOne(+id);
   }

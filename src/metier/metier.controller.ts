@@ -17,6 +17,11 @@ export class MetierController {
     return this.metierService.findAll();
   }
 
+  @Post('/groupe')
+  findByGroupe(@Body() { groupe }) {
+    return this.metierService.findByGroupe(groupe);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.metierService.findOne(+id);

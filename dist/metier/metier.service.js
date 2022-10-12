@@ -27,6 +27,11 @@ let MetierService = class MetierService {
     findAll() {
         return this.metierRepository.find();
     }
+    findByGroupe(groupe) {
+        return this.metierRepository.find({
+            where: [{ "groupe": groupe }]
+        });
+    }
     findOne(id) {
         return this.metierRepository.findOne(+id);
     }

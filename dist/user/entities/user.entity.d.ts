@@ -4,8 +4,11 @@ export declare class Users {
     lastname: string;
     email: string;
     password: string;
+    numero_cni: string;
     cni: string;
-    secteur: string;
+    cv: string;
+    dob: string;
+    metier: string;
     status: boolean;
     role: string;
     createdAt: String;

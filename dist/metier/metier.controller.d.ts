@@ -6,6 +6,9 @@ export declare class MetierController {
     constructor(metierService: MetierService);
     create(createMetierDto: CreateMetierDto): any;
     findAll(): any;
+    findByGroupe({ groupe }: {
+        groupe: any;
+    }): any;
     findOne(id: string): any;
     update(id: string, updateMetierDto: UpdateMetierDto): any;
     remove(id: string): any;

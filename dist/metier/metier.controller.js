@@ -27,6 +27,9 @@ let MetierController = class MetierController {
     findAll() {
         return this.metierService.findAll();
     }
+    findByGroupe({ groupe }) {
+        return this.metierService.findByGroupe(groupe);
+    }
     findOne(id) {
         return this.metierService.findOne(+id);
     }
@@ -50,6 +53,13 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], MetierController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Post)('/groupe'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], MetierController.prototype, "findByGroupe", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
