@@ -56,7 +56,7 @@ let AuthService = class AuthService {
     }
     async getByEmail(email) {
         return this.userRepository.findOne({
-            select: ["id", "firstname", "lastname", "email"],
+            select: ["id", "firstname", "lastname", "email", "password"],
             where: [{ "email": email }]
         });
     }
