@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from '../user/entities/user.entity';
-import { Repository } from 'typeorm';
+import { getManager, Repository } from 'typeorm';
 
 @Injectable()
 export class UserService {
@@ -11,16 +11,22 @@ export class UserService {
         return await this.usersRepository.find()
     }
 
-    // async findAll(role: string): Promise<Users[]> {
-    //     return await this.usersRepository.find({
-    //         where: [{ "role": role }]
-    //     })
-    // }
-
     async getByEmail(email: string) {
         return await this.usersRepository.findOne({
             where: [{ "email": email }]
         })
+    }
+
+    async getGenre(genre: string) {
+        return await this.usersRepository.count({
+            where: [{ "genre": genre }]
+        })
+    }
+
+    async groupByRegion() {
+        const entityManager = getManager();
+        const response = entityManager.query(`SELECT COUNT(id) AS total, region FROM users GROUP by region`)
+        return response;
     }
 
     async markEmailAsConfirmed(email: string) {

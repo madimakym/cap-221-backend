@@ -9,6 +9,8 @@ export declare class Users {
     cv: string;
     dob: string;
     metier: string;
+    genre: string;
+    region: string;
     status: boolean;
     role: string;
     createdAt: String;

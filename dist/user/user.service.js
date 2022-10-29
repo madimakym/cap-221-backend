@@ -16,6 +16,7 @@ exports.UserService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const user_entity_1 = require("../user/entities/user.entity");
+const typeorm_2 = require("typeorm");
 let UserService = class UserService {
     constructor(usersRepository) {
         this.usersRepository = usersRepository;
@@ -27,6 +28,16 @@ let UserService = class UserService {
         return await this.usersRepository.findOne({
             where: [{ "email": email }]
         });
+    }
+    async getGenre(genre) {
+        return await this.usersRepository.count({
+            where: [{ "genre": genre }]
+        });
+    }
+    async groupByRegion() {
+        const entityManager = (0, typeorm_2.getManager)();
+        const response = entityManager.query(`SELECT COUNT(id) AS total, region FROM users GROUP by region`);
+        return response;
     }
     async markEmailAsConfirmed(email) {
         return this.usersRepository.update({ email }, {

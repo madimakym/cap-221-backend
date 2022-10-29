@@ -35,6 +35,12 @@ export class Users {
     metier: string;
 
     @Column({ nullable: true })
+    genre: string;
+
+    @Column({ nullable: true })
+    region: string;
+
+    @Column({ nullable: true })
     status: boolean;
 
     @Column()

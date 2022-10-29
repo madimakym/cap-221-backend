@@ -57,6 +57,14 @@ __decorate([
 ], Users.prototype, "metier", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Users.prototype, "genre", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Users.prototype, "region", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", Boolean)
 ], Users.prototype, "status", void 0);
 __decorate([

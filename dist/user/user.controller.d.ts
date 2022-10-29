@@ -11,7 +11,9 @@ export declare class UserController {
     private configService;
     constructor(userService: UserService, jwtService: JwtService, mailService: MailService, configService: ConfigService);
     findAll(): Promise<Users[]>;
+    findByRegion(): Promise<any>;
     findOneById(params: any): Promise<Users>;
+    findGenre(params: any): Promise<Users>;
     Update(id: number, data: Users): Promise<{
         status: HttpStatus;
         message: any;

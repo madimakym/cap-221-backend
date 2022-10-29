@@ -21,10 +21,21 @@ export class UserController {
         return this.userService.findAll();
     }
 
+    @Get("/region")
+    findByRegion() {
+        return this.userService.groupByRegion();
+    }
+
     @Get(':id')
     async findOneById(@Param() params): Promise<Users> {
         return await this.userService.findById(params.id);
     }
+
+    @Get('genre/:id')
+    async findGenre(@Param() params): Promise<Users> {
+        return await this.userService.getGenre(params.id);
+    }
+
 
     @UseGuards(JwtAuthGuard)
     @Put(':id')

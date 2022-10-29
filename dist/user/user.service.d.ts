@@ -4,6 +4,8 @@ export declare class UserService {
     constructor(usersRepository: any);
     findAll(): Promise<Users[]>;
     getByEmail(email: string): Promise<any>;
+    getGenre(genre: string): Promise<any>;
+    groupByRegion(): Promise<any>;
     markEmailAsConfirmed(email: string): Promise<any>;
     findById(id: number): Promise<Users>;
     update(id: number, user: Users): Promise<any>;
