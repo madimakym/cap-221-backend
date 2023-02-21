@@ -11,6 +11,9 @@ export class Metier {
     @Column({ nullable: true })
     groupe: string
 
+    @Column({ nullable: true })
+    description: string
+
     @CreateDateColumn()
     createdAt: String
 

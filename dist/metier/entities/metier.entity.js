@@ -26,6 +26,10 @@ __decorate([
     __metadata("design:type", String)
 ], Metier.prototype, "groupe", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Metier.prototype, "description", void 0);
+__decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", String)
 ], Metier.prototype, "createdAt", void 0);
