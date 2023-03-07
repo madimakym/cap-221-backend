@@ -10,11 +10,23 @@ export class AuthController {
 
     @Post('register')
     async signup(@Body() user: Users) {
+        console.log(user);
         const resp = await this.authService.getByEmail(user.email);
         if (resp) {
             throw new NotAcceptableException("Adresse email existante");
         } else {
             return this.authService.signup(user);
+        }
+    }
+
+    @Post('register/check')
+    async signupCheck(@Body() user: Users) {
+        console.log(user);
+        const resp = await this.authService.getByEmail(user.email);
+        if (resp) {
+            throw new NotAcceptableException("Adresse email existante");
+        } else {
+            return false;
         }
     }
 

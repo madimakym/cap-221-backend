@@ -13,8 +13,10 @@ export class AuthService {
 
     async signup(user) {
         const salt = await bcrypt.genSalt();
+        console.log(salt);
+        console.log( user);
         const hash = await bcrypt.hash(user.password, salt);
-        user.password = hash
+        user.password = hash;
         const resp = await this.userRepository.save(user);
         resp.password = undefined;
         return resp;

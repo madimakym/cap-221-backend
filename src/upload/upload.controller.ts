@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Res, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Param, Post, Res, UploadedFile, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { Helper } from '../utils/helper';
@@ -6,18 +6,43 @@ import { Helper } from '../utils/helper';
 
 @Controller()
 export class UploadController {
+
     @Post('api/v1/upload')
     @UseInterceptors(
-        FileInterceptor('file', {
-            storage: diskStorage({
-                destination: Helper.destinationPath,
-                filename: Helper.customFileName,
-            }),
-        }),
+        FileInterceptor('file'
+            , {
+                storage: diskStorage({
+                    destination: Helper.destinationPath,
+                    filename: function (req, file, cb) {
+                        cb(null, 'img' + '-' + Date.now() + '.' + file.originalname.split('.').pop());
+                    }
+                }),
+            }
+        ),
     )
-    uploadfile(@UploadedFiles() file): string {
+    uploadFile(@UploadedFile() file) {
+        console.log('ok');
         return file;
     }
+
+    @Post('api/v1/upload/article')
+    @UseInterceptors(
+        FileInterceptor('file'
+            , {
+                storage: diskStorage({
+                    destination: Helper.destinationPath,
+                    filename: function (req, file, cb) {
+                        cb(null, 'img' + '-' + Date.now() + '.' + file.name.split('.').pop());
+                    }
+                }),
+            }
+        ),
+    )
+    uploadFileArticle(@UploadedFile() file) {
+        console.log('ok');
+        return file;
+    }
+
 
     @Post('api/v1/uploads')
     @UseInterceptors(

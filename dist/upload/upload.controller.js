@@ -18,7 +18,12 @@ const platform_express_1 = require("@nestjs/platform-express");
 const multer_1 = require("multer");
 const helper_1 = require("../utils/helper");
 let UploadController = class UploadController {
-    uploadfile(file) {
+    uploadFile(file) {
+        console.log('ok');
+        return file;
+    }
+    uploadFileArticle(file) {
+        console.log('ok');
         return file;
     }
     uploadMultiple(files) {
@@ -33,14 +38,31 @@ __decorate([
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', {
         storage: (0, multer_1.diskStorage)({
             destination: helper_1.Helper.destinationPath,
-            filename: helper_1.Helper.customFileName,
+            filename: function (req, file, cb) {
+                cb(null, 'img' + '-' + Date.now() + '.' + file.originalname.split('.').pop());
+            }
         }),
     })),
-    __param(0, (0, common_1.UploadedFiles)()),
+    __param(0, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", String)
-], UploadController.prototype, "uploadfile", null);
+    __metadata("design:returntype", void 0)
+], UploadController.prototype, "uploadFile", null);
+__decorate([
+    (0, common_1.Post)('api/v1/upload/article'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', {
+        storage: (0, multer_1.diskStorage)({
+            destination: helper_1.Helper.destinationPath,
+            filename: function (req, file, cb) {
+                cb(null, 'img' + '-' + Date.now() + '.' + file.name.split('.').pop());
+            }
+        }),
+    })),
+    __param(0, (0, common_1.UploadedFile)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UploadController.prototype, "uploadFileArticle", null);
 __decorate([
     (0, common_1.Post)('api/v1/uploads'),
     (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('file', 10, {

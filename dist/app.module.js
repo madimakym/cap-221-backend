@@ -19,6 +19,7 @@ const auth_module_1 = require("./auth/auth.module");
 const media_module_1 = require("./media/media.module");
 const upload_module_1 = require("./upload/upload.module");
 const metier_module_1 = require("./metier/metier.module");
+const article_module_1 = require("./article/article.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -26,6 +27,7 @@ AppModule = __decorate([
         imports: [
             auth_module_1.AuthModule,
             categorie_module_1.CategorieModule,
+            article_module_1.ArticleModule,
             metier_module_1.MetierModule,
             product_module_1.ProductModule,
             upload_module_1.UploadModule,

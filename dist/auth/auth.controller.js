@@ -23,12 +23,23 @@ let AuthController = class AuthController {
         this.authService = authService;
     }
     async signup(user) {
+        console.log(user);
         const resp = await this.authService.getByEmail(user.email);
         if (resp) {
             throw new common_1.NotAcceptableException("Adresse email existante");
         }
         else {
             return this.authService.signup(user);
+        }
+    }
+    async signupCheck(user) {
+        console.log(user);
+        const resp = await this.authService.getByEmail(user.email);
+        if (resp) {
+            throw new common_1.NotAcceptableException("Adresse email existante");
+        }
+        else {
+            return false;
         }
     }
     async login(user) {
@@ -54,6 +65,13 @@ __decorate([
     __metadata("design:paramtypes", [user_entity_1.Users]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "signup", null);
+__decorate([
+    (0, common_1.Post)('register/check'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_entity_1.Users]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "signupCheck", null);
 __decorate([
     (0, common_1.Post)('login'),
     __param(0, (0, common_1.Body)()),

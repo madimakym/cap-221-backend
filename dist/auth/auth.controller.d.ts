@@ -4,6 +4,7 @@ export declare class AuthController {
     private authService;
     constructor(authService: AuthService);
     signup(user: Users): Promise<any>;
+    signupCheck(user: Users): Promise<boolean>;
     login(user: any): Promise<{
         access_token: string;
         role: string;
