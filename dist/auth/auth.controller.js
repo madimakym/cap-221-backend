@@ -18,9 +18,11 @@ const auth_service_1 = require("./auth.service");
 const user_entity_1 = require("../user/entities/user.entity");
 const bcrypt = require("bcrypt");
 const jwt_auth_guard_1 = require("./jwt-auth.guard");
+const user_service_1 = require("../user/user.service");
 let AuthController = class AuthController {
-    constructor(authService) {
+    constructor(authService, userService) {
         this.authService = authService;
+        this.userService = userService;
     }
     async signup(user) {
         console.log(user);
@@ -52,6 +54,19 @@ let AuthController = class AuthController {
         }
         return this.authService.login(resp);
     }
+    async check_user(user) {
+        const resp = await this.userService.getByEmail(user.email);
+        if (resp) {
+            resp.password = undefined;
+            return {
+                status: common_1.HttpStatus.OK,
+                message: resp,
+            };
+        }
+        else {
+            throw new common_1.NotAcceptableException("Cet utilisateur n'existe pas!");
+        }
+    }
     async authenticate(request) {
         const resp = await this.authService.getByToken(request.user.id);
         resp.password = undefined;
@@ -80,6 +95,13 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
 __decorate([
+    (0, common_1.Post)('check-user'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "check_user", null);
+__decorate([
     (0, common_1.Get)(),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, common_1.Req)()),
@@ -89,7 +111,8 @@ __decorate([
 ], AuthController.prototype, "authenticate", null);
 AuthController = __decorate([
     (0, common_1.Controller)('api/v1/auth/'),
-    __metadata("design:paramtypes", [auth_service_1.AuthService])
+    __metadata("design:paramtypes", [auth_service_1.AuthService,
+        user_service_1.UserService])
 ], AuthController);
 exports.AuthController = AuthController;
 //# sourceMappingURL=auth.controller.js.map

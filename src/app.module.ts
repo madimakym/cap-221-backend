@@ -10,7 +10,8 @@ import { AuthModule } from "./auth/auth.module";
 import { MediaModule } from "./media/media.module";
 import { UploadModule } from "./upload/upload.module";
 import { MetierModule } from './metier/metier.module';
-import {ArticleModule} from "./article/article.module";
+import { ArticleModule } from "./article/article.module";
+import { UserModule } from "./user/user.module";
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import {ArticleModule} from "./article/article.module";
     ArticleModule,
     MetierModule,
     ProductModule,
+    UserModule,
     UploadModule,
     ConfigModule,
     MediaModule,

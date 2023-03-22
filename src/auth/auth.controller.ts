@@ -1,12 +1,16 @@
-import { Controller, Post, UseGuards, Body, NotAcceptableException, BadRequestException, Get, Req } from '@nestjs/common';
+import { Controller, Post, UseGuards, Body, NotAcceptableException, BadRequestException, Get, Req, HttpStatus } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Users } from '../user/entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { JwtAuthGuard } from './jwt-auth.guard';
+import { UserService } from '../user/user.service';
 
 @Controller('api/v1/auth/')
 export class AuthController {
-    constructor(private authService: AuthService) { }
+    constructor(
+        private authService: AuthService,
+        private readonly userService: UserService,
+    ) { }
 
     @Post('register')
     async signup(@Body() user: Users) {
@@ -40,6 +44,20 @@ export class AuthController {
             throw new BadRequestException('Mot de passe incorrect!');
         }
         return this.authService.login(resp);
+    }
+
+    @Post('check-user')
+    async check_user(@Body() user) {
+        const resp = await this.userService.getByEmail(user.email);
+        if (resp) {
+            resp.password = undefined;
+            return {
+                status: HttpStatus.OK,
+                message: resp,
+            };
+        } else {
+            throw new NotAcceptableException("Cet utilisateur n'existe pas!");
+        }
     }
 
     @Get()

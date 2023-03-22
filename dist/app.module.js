@@ -20,6 +20,7 @@ const media_module_1 = require("./media/media.module");
 const upload_module_1 = require("./upload/upload.module");
 const metier_module_1 = require("./metier/metier.module");
 const article_module_1 = require("./article/article.module");
+const user_module_1 = require("./user/user.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -30,6 +31,7 @@ AppModule = __decorate([
             article_module_1.ArticleModule,
             metier_module_1.MetierModule,
             product_module_1.ProductModule,
+            user_module_1.UserModule,
             upload_module_1.UploadModule,
             config_1.ConfigModule,
             media_module_1.MediaModule,

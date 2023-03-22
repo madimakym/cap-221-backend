@@ -18,14 +18,13 @@ const user_entity_1 = require("../user/entities/user.entity");
 const auth_service_1 = require("./auth.service");
 const auth_controller_1 = require("./auth.controller");
 const mail_module_1 = require("../mail/mail.module");
-const user_module_1 = require("../user/user.module");
+const user_service_1 = require("../user/user.service");
 let AuthModule = class AuthModule {
 };
 AuthModule = __decorate([
     (0, common_1.Module)({
         imports: [
             mail_module_1.MailModule,
-            user_module_1.UserModule,
             passport_1.PassportModule,
             jwt_1.JwtModule.register({
                 secret: constants_1.jwtConstants.secret,
@@ -33,7 +32,7 @@ AuthModule = __decorate([
             }),
             typeorm_1.TypeOrmModule.forFeature([user_entity_1.Users]),
         ],
-        providers: [auth_service_1.AuthService, local_strategy_1.LocalStrategy, jwt_strategy_1.JwtStrategy],
+        providers: [auth_service_1.AuthService, local_strategy_1.LocalStrategy, jwt_strategy_1.JwtStrategy, user_service_1.UserService],
         controllers: [auth_controller_1.AuthController],
     })
 ], AuthModule);

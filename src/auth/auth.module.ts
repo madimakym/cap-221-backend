@@ -10,10 +10,10 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { MailModule } from '../mail/mail.module';
 import { UserModule } from '../user/user.module';
+import { UserService } from '../user/user.service';
 @Module({
   imports: [
     MailModule,
-    UserModule,
     PassportModule,
     JwtModule.register({
       secret: jwtConstants.secret,
@@ -21,7 +21,7 @@ import { UserModule } from '../user/user.module';
     }),
     TypeOrmModule.forFeature([Users]),
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  providers: [AuthService, LocalStrategy, JwtStrategy, UserService],
   controllers: [AuthController],
 })
 export class AuthModule { }
