@@ -24,17 +24,17 @@ let ArticleController = class ArticleController {
     create(createArticleDto) {
         return this.articleService.create(createArticleDto);
     }
-    findAll(name) {
-        return this.articleService.findAll(name);
+    findAll() {
+        return this.articleService.findAll();
+    }
+    findOne(id) {
+        return this.articleService.findOne(+id);
     }
     findAllSimple() {
         return this.articleService.findAllSimple();
     }
     findByGroupe({ groupe }) {
         return this.articleService.findByGroupe(groupe);
-    }
-    findOne(id) {
-        return this.articleService.findOne(+id);
     }
     update(id, updateArticleDto) {
         return this.articleService.update(+id, updateArticleDto);
@@ -51,12 +51,18 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ArticleController.prototype, "create", null);
 __decorate([
-    (0, common_1.Get)('/get/:name'),
-    __param(0, (0, common_1.Param)('name')),
+    (0, common_1.Get)(''),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], ArticleController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Get)(':id'),
+    __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], ArticleController.prototype, "findAll", null);
+], ArticleController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
@@ -70,13 +76,6 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ArticleController.prototype, "findByGroupe", null);
-__decorate([
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], ArticleController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),

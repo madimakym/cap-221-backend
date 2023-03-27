@@ -12,14 +12,19 @@ export class ArticleController {
         return this.articleService.create(createArticleDto);
     }
 
-    @Get('/get/:name')
-    findAll(@Param('name') name: string) {
-            return this.articleService.findAll(name);
+    @Get('')
+    findAll() {
+        return this.articleService.findAll();
+    }
+
+    @Get(':id')
+    findOne(@Param('id') id: string) {
+        return this.articleService.findOne(+id);
     }
 
     @Get()
     findAllSimple() {
-            return this.articleService.findAllSimple();
+        return this.articleService.findAllSimple();
     }
 
     @Post('/groupe')
@@ -27,10 +32,7 @@ export class ArticleController {
         return this.articleService.findByGroupe(groupe);
     }
 
-    @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this.articleService.findOne(+id);
-    }
+
 
     @Patch(':id')
     update(@Param('id') id: string, @Body() updateArticleDto: UpdateArticleDto) {

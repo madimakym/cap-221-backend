@@ -33,6 +33,10 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
+], Article.prototype, "resume", void 0);
+__decorate([
+    (0, typeorm_1.Column)("longtext"),
+    __metadata("design:type", String)
 ], Article.prototype, "description", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),

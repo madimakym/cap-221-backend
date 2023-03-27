@@ -5,12 +5,12 @@ export declare class ArticleController {
     private readonly articleService;
     constructor(articleService: ArticleService);
     create(createArticleDto: CreateArticleDto): any;
-    findAll(name: string): any;
+    findAll(): any;
+    findOne(id: string): any;
     findAllSimple(): any;
     findByGroupe({ groupe }: {
         groupe: any;
     }): any;
-    findOne(id: string): any;
     update(id: string, updateArticleDto: UpdateArticleDto): any;
     remove(id: string): any;
 }

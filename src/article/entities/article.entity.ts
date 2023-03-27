@@ -7,7 +7,7 @@ import {
     ManyToOne,
     JoinColumn
 } from 'typeorm'
-import {Users} from "../../user/entities/user.entity";
+import { Users } from "../../user/entities/user.entity";
 
 @Entity()
 export class Article {
@@ -24,14 +24,18 @@ export class Article {
     category: string
 
     @Column({ nullable: true })
+    resume: string
+
+    @Column("longtext")
     description: string
 
     @Column({ nullable: true })
     image: string
 
     @ManyToOne(() =>
-            Users, user => user.id,
+        Users, user => user.id,
         { onDelete: 'SET NULL' })
+
     @JoinColumn()
     writer: Users;
 

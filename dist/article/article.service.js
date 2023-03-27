@@ -21,18 +21,10 @@ let ArticleService = class ArticleService {
         this.articleRepository = articleRepository;
     }
     create(createArticleDto) {
-        const res = this.articleRepository.save(createArticleDto);
-        return res;
+        return this.articleRepository.save(createArticleDto);
     }
-    findAll(name) {
-        if (name === 'TOUS') {
-            return this.articleRepository.find();
-        }
-        else {
-            return this.articleRepository.find({
-                where: [{ "category": name }]
-            });
-        }
+    findAll() {
+        return this.articleRepository.find();
     }
     findAllSimple() {
         return this.articleRepository.findAll();

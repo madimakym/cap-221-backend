@@ -4,7 +4,7 @@ export declare class ArticleService {
     private articleRepository;
     constructor(articleRepository: any);
     create(createArticleDto: CreateArticleDto): any;
-    findAll(name: String): any;
+    findAll(): any;
     findAllSimple(): any;
     findByGroupe(groupe: string): any;
     findOne(id: number): any;

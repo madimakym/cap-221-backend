@@ -4,6 +4,7 @@ export declare class Article {
     title: string;
     active: number;
     category: string;
+    resume: string;
     description: string;
     image: string;
     writer: Users;
