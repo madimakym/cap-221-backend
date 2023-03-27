@@ -26,6 +26,16 @@ let ArticleService = class ArticleService {
     findAll() {
         return this.articleRepository.find();
     }
+    findByCategory(name) {
+        if (name === 'TOUS') {
+            return this.articleRepository.find();
+        }
+        else {
+            return this.articleRepository.find({
+                where: [{ "category": name }]
+            });
+        }
+    }
     findAllSimple() {
         return this.articleRepository.findAll();
     }

@@ -17,6 +17,12 @@ export class ArticleController {
         return this.articleService.findAll();
     }
 
+    @Get('/category/:name')
+    findByCategory(@Param('name') name: string) {
+            return this.articleService.findByCategory(name);
+    }
+
+
     @Get(':id')
     findOne(@Param('id') id: string) {
         return this.articleService.findOne(+id);

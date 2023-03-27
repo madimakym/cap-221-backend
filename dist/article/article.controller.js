@@ -27,6 +27,9 @@ let ArticleController = class ArticleController {
     findAll() {
         return this.articleService.findAll();
     }
+    findByCategory(name) {
+        return this.articleService.findByCategory(name);
+    }
     findOne(id) {
         return this.articleService.findOne(+id);
     }
@@ -56,6 +59,13 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], ArticleController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Get)('/category/:name'),
+    __param(0, (0, common_1.Param)('name')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], ArticleController.prototype, "findByCategory", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),

@@ -17,6 +17,16 @@ export class ArticleService {
         return this.articleRepository.find();
     }
 
+    findByCategory(name: String) {
+        if (name === 'TOUS') {
+            return this.articleRepository.find();
+        } else {
+            return this.articleRepository.find({
+                where: [{ "category": name }]
+            });
+        }
+    }
+
     findAllSimple() {
         return this.articleRepository.findAll();
     }

@@ -6,6 +6,7 @@ export declare class ArticleController {
     constructor(articleService: ArticleService);
     create(createArticleDto: CreateArticleDto): any;
     findAll(): any;
+    findByCategory(name: string): any;
     findOne(id: string): any;
     findAllSimple(): any;
     findByGroupe({ groupe }: {
