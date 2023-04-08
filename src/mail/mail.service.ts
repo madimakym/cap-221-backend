@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
@@ -10,7 +10,6 @@ export class MailService {
     private mailerService: MailerService,
     private configService: ConfigService,
     private readonly jwtService: JwtService,
-    // private readonly userService: UserService,
   ) { }
 
   async sendCheck() {
@@ -18,6 +17,18 @@ export class MailService {
       to: "makymadi@gmail.com",
       subject: 'Test mail',
       template: 'default',
+    });
+    return resp;
+  }
+
+  async sendAuthConfirmCode(code, email) {
+    const resp = await this.mailerService.sendMail({
+      to: email,
+      subject: 'Test mail',
+      template: 'auth-confirm-code',
+      context: {
+        code: code
+      },
     });
     return resp;
   }
@@ -76,6 +87,43 @@ export class MailService {
         firstname: firstname,
         lastname: lastname
       },
+    });
+    return resp;
+  }
+
+  async sendSubscriptionTrialEnding(user, url) {
+    const resp = await this.mailerService.sendMail({
+      to: user.email,
+      subject: 'Votre essai de Kliner se termine dans 3 jours',
+      template: 'subscription_trial_ending',
+      context: {
+        firstname: user.firstname,
+        lastname: user.lastname,
+        url
+      },
+    });
+    return resp;
+  }
+
+  async sendSubscriptionStarting(user, url) {
+    const resp = await this.mailerService.sendMail({
+      to: user.email,
+      subject: 'Votre ménage sur pilotage automatique',
+      template: 'subscription_started',
+      context: {
+        firstname: user.firstname,
+        lastname: user.lastname,
+        url
+      },
+    });
+    return resp;
+  }
+
+  async sendReportsToPartner(partner, url?) {
+    const resp = await this.mailerService.sendMail({
+      to: partner.email,
+      subject: 'Rapports financier',
+      template: 'partner_report'
     });
     return resp;
   }
@@ -141,15 +189,22 @@ export class MailService {
   }
 
   async sendResetPassword(to, firstname, url) {
-    await this.mailerService.sendMail({
-      to: to,
-      subject: 'Réinitialisation de votre mot de passe',
-      template: 'reset_password',
-      context: {
-        firstname: firstname,
-        url: url
-      },
-    });
+    try {
+      await this.mailerService.sendMail({
+        to: to,
+        subject: 'Réinitialisation de votre mot de passe',
+        template: 'reset_password',
+        context: {
+          firstname: firstname,
+          url: url
+        },
+      });
+    } catch (error) {
+      return {
+        status: HttpStatus.BAD_REQUEST,
+        message: error.message,
+      };
+    }
   }
 
 }

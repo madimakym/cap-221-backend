@@ -30,7 +30,8 @@ export declare class UserController {
     resetPassword({ email }: {
         email: any;
     }): Promise<{
-        statusCode: HttpStatus;
+        status: HttpStatus;
+        message: any;
     }>;
     checkToken({ token }: {
         token: any;

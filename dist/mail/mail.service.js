@@ -28,6 +28,17 @@ let MailService = class MailService {
         });
         return resp;
     }
+    async sendAuthConfirmCode(code, email) {
+        const resp = await this.mailerService.sendMail({
+            to: email,
+            subject: 'Test mail',
+            template: 'auth-confirm-code',
+            context: {
+                code: code
+            },
+        });
+        return resp;
+    }
     async sendVerificationLink(firstname, lastname, email) {
         const payload = { email };
         const token = this.jwtService.sign(payload, {
@@ -60,6 +71,40 @@ let MailService = class MailService {
                 firstname: firstname,
                 lastname: lastname
             },
+        });
+        return resp;
+    }
+    async sendSubscriptionTrialEnding(user, url) {
+        const resp = await this.mailerService.sendMail({
+            to: user.email,
+            subject: 'Votre essai de Kliner se termine dans 3 jours',
+            template: 'subscription_trial_ending',
+            context: {
+                firstname: user.firstname,
+                lastname: user.lastname,
+                url
+            },
+        });
+        return resp;
+    }
+    async sendSubscriptionStarting(user, url) {
+        const resp = await this.mailerService.sendMail({
+            to: user.email,
+            subject: 'Votre ménage sur pilotage automatique',
+            template: 'subscription_started',
+            context: {
+                firstname: user.firstname,
+                lastname: user.lastname,
+                url
+            },
+        });
+        return resp;
+    }
+    async sendReportsToPartner(partner, url) {
+        const resp = await this.mailerService.sendMail({
+            to: partner.email,
+            subject: 'Rapports financier',
+            template: 'partner_report'
         });
         return resp;
     }
@@ -120,15 +165,23 @@ let MailService = class MailService {
         }
     }
     async sendResetPassword(to, firstname, url) {
-        await this.mailerService.sendMail({
-            to: to,
-            subject: 'Réinitialisation de votre mot de passe',
-            template: 'reset_password',
-            context: {
-                firstname: firstname,
-                url: url
-            },
-        });
+        try {
+            await this.mailerService.sendMail({
+                to: to,
+                subject: 'Réinitialisation de votre mot de passe',
+                template: 'reset_password',
+                context: {
+                    firstname: firstname,
+                    url: url
+                },
+            });
+        }
+        catch (error) {
+            return {
+                status: common_1.HttpStatus.BAD_REQUEST,
+                message: error.message,
+            };
+        }
     }
 };
 MailService = __decorate([

@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, forwardRef, Get, HttpStatus, Inject, NotAcceptableException, Param, Post, Put, Query, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, NotAcceptableException, Param, Post, Put, Request, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Users } from '../user/entities/user.entity';
 import { UserService } from './user.service';
@@ -75,19 +75,26 @@ export class UserController {
     @Post('reset-password')
     async resetPassword(@Body() { email }) {
         const user = await this.userService.getByEmail(email);
-        const payload = { id: user.id, email: user.email }
-        if (user) {
-            const token = this.jwtService.sign(payload, {
-                secret: this.configService.get('jwt.secret'),
-                expiresIn: `3600s`
-            });
-            const url = `${this.configService.get('base_url')}/reset-password/?token=${token}`;
-            this.mailService.sendResetPassword(user.email, user.firstname, url);
-            return {
-                statusCode: HttpStatus.OK,
-            };
-        } else {
-            throw new NotAcceptableException("Cet utilisateur n'existe pas!");
+        try {
+            if (user) {
+                const payload = { id: user.id, email: user.email }
+                const token = this.jwtService.sign(payload, {
+                    secret: this.configService.get('jwt.secret'),
+                    expiresIn: `3600s`
+                });
+                const url = `${this.configService.get('base_url')}/reset-password/?token=${token}`;
+                const mail = await this.mailService.sendResetPassword(user.email, user.firstname, url);
+                console.log("mail:", mail)
+                return mail
+            } else {
+                return {
+                    status: HttpStatus.BAD_REQUEST,
+                    message: "Ce compte n'existe pas",
+                };
+            }
+        } catch (error) {
+            console.log("error:", error)
+
         }
     }
 

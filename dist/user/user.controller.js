@@ -74,20 +74,27 @@ let UserController = class UserController {
     }
     async resetPassword({ email }) {
         const user = await this.userService.getByEmail(email);
-        const payload = { id: user.id, email: user.email };
-        if (user) {
-            const token = this.jwtService.sign(payload, {
-                secret: this.configService.get('jwt.secret'),
-                expiresIn: `3600s`
-            });
-            const url = `${this.configService.get('base_url')}/reset-password/?token=${token}`;
-            this.mailService.sendResetPassword(user.email, user.firstname, url);
-            return {
-                statusCode: common_1.HttpStatus.OK,
-            };
+        try {
+            if (user) {
+                const payload = { id: user.id, email: user.email };
+                const token = this.jwtService.sign(payload, {
+                    secret: this.configService.get('jwt.secret'),
+                    expiresIn: `3600s`
+                });
+                const url = `${this.configService.get('base_url')}/reset-password/?token=${token}`;
+                const mail = await this.mailService.sendResetPassword(user.email, user.firstname, url);
+                console.log("mail:", mail);
+                return mail;
+            }
+            else {
+                return {
+                    status: common_1.HttpStatus.BAD_REQUEST,
+                    message: "Ce compte n'existe pas",
+                };
+            }
         }
-        else {
-            throw new common_1.NotAcceptableException("Cet utilisateur n'existe pas!");
+        catch (error) {
+            console.log("error:", error);
         }
     }
     async checkToken({ token }) {
