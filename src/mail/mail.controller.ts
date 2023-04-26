@@ -5,11 +5,6 @@ import { MailService } from './mail.service';
 export class MailController {
   constructor(private readonly mailService: MailService) { }
 
-  @Post("appointment")
-  sendAppointment(@Body() data) {
-    return this.mailService.sendAppointment(data);
-  }
-
 
   @Post("order")
   sendOrder(@Body() data) {

@@ -19,9 +19,6 @@ let MailController = class MailController {
     constructor(mailService) {
         this.mailService = mailService;
     }
-    sendAppointment(data) {
-        return this.mailService.sendAppointment(data);
-    }
     sendOrder(data) {
         return this.mailService.sendOrder(data);
     }
@@ -38,13 +35,6 @@ let MailController = class MailController {
         await this.mailService.sendCheck();
     }
 };
-__decorate([
-    (0, common_1.Post)("appointment"),
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], MailController.prototype, "sendAppointment", null);
 __decorate([
     (0, common_1.Post)("order"),
     __param(0, (0, common_1.Body)()),

@@ -29,9 +29,9 @@ export declare class UserController {
     }>;
     resetPassword({ email }: {
         email: any;
-    }): Promise<{
+    }): Promise<void | {
         status: HttpStatus;
-        message: any;
+        message: string;
     }>;
     checkToken({ token }: {
         token: any;

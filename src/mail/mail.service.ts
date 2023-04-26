@@ -1,8 +1,7 @@
-import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-// import { UserService } from '../user/user.service';
 
 @Injectable()
 export class MailService {
@@ -21,32 +20,13 @@ export class MailService {
     return resp;
   }
 
-  async sendAuthConfirmCode(code, email) {
-    const resp = await this.mailerService.sendMail({
-      to: email,
-      subject: 'Test mail',
-      template: 'auth-confirm-code',
-      context: {
-        code: code
-      },
-    });
-    return resp;
-  }
-
   async sendVerificationLink(firstname: string, lastname: string, email: string) {
     const payload = { email };
-    // const token = this.jwtService.sign(payload, {
-    //   secret: this.configService.get('JWT_VERIFICATION_TOKEN_SECRET'),
-    //   expiresIn: `${this.configService.get('JWT_VERIFICATION_TOKEN_EXPIRATION_TIME')}s`
-    // });
-
     const token = this.jwtService.sign(payload, {
       secret: this.configService.get('jwt.secret'),
       expiresIn: `3600s`
     });
-    // const url = `${this.configService.get('base_url')}/reset-password/?token=${token}`;
-    // this.mailService.sendResetPassword(user.email, user.firstname, url);
-    const url = `${this.configService.get('BASE_URL')}confirm-email?token=${token}`;
+    const url = `${this.configService.get('BASE_URL')}/confirm-email?token=${token}`;
     const resp = await this.mailerService.sendMail({
       to: email,
       subject: 'Demande de confirmation d\'inscription',
@@ -91,43 +71,6 @@ export class MailService {
     return resp;
   }
 
-  async sendSubscriptionTrialEnding(user, url) {
-    const resp = await this.mailerService.sendMail({
-      to: user.email,
-      subject: 'Votre essai de Kliner se termine dans 3 jours',
-      template: 'subscription_trial_ending',
-      context: {
-        firstname: user.firstname,
-        lastname: user.lastname,
-        url
-      },
-    });
-    return resp;
-  }
-
-  async sendSubscriptionStarting(user, url) {
-    const resp = await this.mailerService.sendMail({
-      to: user.email,
-      subject: 'Votre ménage sur pilotage automatique',
-      template: 'subscription_started',
-      context: {
-        firstname: user.firstname,
-        lastname: user.lastname,
-        url
-      },
-    });
-    return resp;
-  }
-
-  async sendReportsToPartner(partner, url?) {
-    const resp = await this.mailerService.sendMail({
-      to: partner.email,
-      subject: 'Rapports financier',
-      template: 'partner_report'
-    });
-    return resp;
-  }
-
 
   async sendOrder(orderData) {
     const resp = await this.mailerService.sendMail({
@@ -138,6 +81,18 @@ export class MailService {
         order: orderData.order,
         coordonnees: orderData.coordonnees,
         libelle: orderData.libelle,
+      },
+    });
+    return resp;
+  }
+
+  async sendCancelOrder(orderData) {
+    const resp = await this.mailerService.sendMail({
+      to: this.configService.get('MAIL_ADMIN'),
+      subject: 'Annulation de commande',
+      template: 'order_cancel',
+      context: {
+        order: orderData.order
       },
     });
     return resp;
@@ -165,15 +120,8 @@ export class MailService {
     });
   }
 
-  async sendAppointment(data) {
-    if (data.type === "success") {
-      const resp = await this.mailerService.sendMail({
-        to: data.to,
-        subject: 'Notification de réservation',
-        template: 'appointment',
-      });
-      return resp;
-    } else {
+  async sendAppointmentCancel(data) {
+    if (data.type !== "success") {
       const resp = await this.mailerService.sendMail({
         to: this.configService.get('MAIL_ADMIN'),
         subject: 'Annulation de réservation ',
@@ -188,23 +136,56 @@ export class MailService {
     }
   }
 
+  async sendAppointmentToAdmin(data) {
+    const resp = await this.mailerService.sendMail({
+      to: this.configService.get('MAIL_ADMIN'),
+      subject: 'Nouvelle réservation',
+      template: 'appointment_confirm_to_admin',
+      context: {
+        firstname: data.firstname,
+        lastname: data.lastname,
+        email: data.email,
+        phone: data.phone,
+        firstname_customer: data.firstname_customer,
+        lastname_customer: data.lastname_customer,
+        email_customer: data.email_customer,
+        phone_customer: data.phone_customer,
+        adresse: data.adresse,
+        date: data.date
+      },
+    });
+    return resp;
+  }
+
+
+  async sendAppointmentToCustomer(data) {
+    const resp = await this.mailerService.sendMail({
+      to: data.email_customer,
+      subject: 'Nouvelle réservation',
+      template: 'appointment_confirm_to_customer',
+      context: {
+        firstname: data.firstname,
+        lastname: data.lastname,
+        email: data.email,
+        phone: data.phone,
+        firstname_customer: data.firstname_customer,
+        adresse: data.adresse,
+        date: data.date
+      },
+    });
+    return resp;
+  }
+
   async sendResetPassword(to, firstname, url) {
-    try {
-      await this.mailerService.sendMail({
-        to: to,
-        subject: 'Réinitialisation de votre mot de passe',
-        template: 'reset_password',
-        context: {
-          firstname: firstname,
-          url: url
-        },
-      });
-    } catch (error) {
-      return {
-        status: HttpStatus.BAD_REQUEST,
-        message: error.message,
-      };
-    }
+    await this.mailerService.sendMail({
+      to: to,
+      subject: 'Réinitialisation de votre mot de passe',
+      template: 'reset_password',
+      context: {
+        firstname: firstname,
+        url: url
+      },
+    });
   }
 
 }
