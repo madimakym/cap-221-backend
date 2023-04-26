@@ -11,7 +11,6 @@ export class MailController {
     return this.mailService.sendOrder(data);
   }
 
-
   @Post("order/confirm")
   sendConfirmOrder(@Body() data) {
     return this.mailService.sendConfirmOrder(data);
